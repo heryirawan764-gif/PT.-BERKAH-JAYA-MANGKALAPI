@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Rekrutmen - PT. Berkah Jaya Mangkalapi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316', // Primary Brand Orange
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                            950: '#431407',
+                        },
+                        charcoal: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .orange-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+        }
+        .orange-glow {
+            box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.35);
+        }
+    </style>
+</head>
+<body class="bg-orange-50/30 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white"
+      x-data="recruitmentApp()">
+
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white font-extrabold text-xl shadow-md orange-glow group-hover:scale-105 transition-transform">
+                    BJM
+                </div>
+                <div>
+                    <span class="text-lg font-extrabold text-slate-900 tracking-tight block leading-tight">PT. BERKAH JAYA MANGKALAPI</span>
+                    <span class="text-xs text-brand-600 font-semibold tracking-wider uppercase">Portal Karir & Rekrutmen</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#beranda" class="hover:text-brand-600 transition-colors">Beranda</a>
+                <a href="#lowongan" class="hover:text-brand-600 transition-colors">Lowongan Kerja</a>
+                <a href="#alur" class="hover:text-brand-600 transition-colors">Alur Pendaftaran</a>
+                <a href="#faq" class="hover:text-brand-600 transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button @click="openCheckModal()" 
+                        class="px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm shadow-md orange-glow hover:shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                    <span>Cek Status Lamaran</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-slate-700 hover:text-brand-600">
+                    <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-xl' : 'fa-bars text-xl'"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div x-show="mobileMenuOpen" x-cloak x-transition 
+             class="md:hidden bg-white border-b border-orange-100 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+            <a href="#beranda" @click="mobileMenuOpen = false" class="block py-2 text-slate-700 font-semibold">Beranda</a>
+            <a href="#lowongan" @click="mobileMenuOpen = false" class="block py-2 text-slate-700 font-semibold">Lowongan Kerja</a>
+            <a href="#alur" @click="mobileMenuOpen = false" class="block py-2 text-slate-700 font-semibold">Alur Pendaftaran</a>
+            <a href="#faq" @click="mobileMenuOpen = false" class="block py-2 text-slate-700 font-semibold">FAQ</a>
+            <button @click="mobileMenuOpen = false; openCheckModal()" 
+                    class="w-full mt-2 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Cek Status Lamaran</span>
+            </button>
+        </div>
+    </header>
+
+    <section id="beranda" class="relative orange-gradient text-white py-20 lg:py-28 overflow-hidden">
+        <!-- Background Glow Overlay -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-amber-300/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-brand-900/20 rounded-full blur-3xl -ml-20 -mb-20"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
+                        Karir & Rekrutmen Resmi PT. BJM
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                        Bangun Masa Depan Anda Bersama <span class="text-amber-200">PT. Berkah Jaya Mangkalapi</span>
+                    </h1>
+                    
+                    <p class="text-orange-100 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                        Bergabunglah dengan tim profesional kami dan wujudkan potensi terbaik Anda. Pantau status dan proses lamaran Anda secara langsung, mudah, dan transparan.
+                    </p>
+
+                    <!-- Main CTA Group -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <button @click="openCheckModal()" 
+                                class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white hover:bg-orange-50 text-brand-700 font-extrabold text-base shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-magnifying-glass text-brand-600"></i>
+                            <span>Cek Status Lamaran Anda</span>
+                        </button>
+                        
+                        <a href="#lowongan" 
+                           class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-700/40 hover:bg-brand-700/60 border border-white/30 text-white font-bold text-base backdrop-blur-sm transition-all text-center">
+                            Lihat Lowongan Pekerjaan
+                        </a>
+                    </div>
+
+                    <!-- Quick Helper / Demo Credentials -->
+                    <div class="pt-6 border-t border-orange-400/40 text-xs text-orange-100 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                        <span class="font-bold text-white"><i class="fa-solid fa-circle-info text-amber-200 mr-1"></i> Contoh No. Registrasi:</span>
+                        <button @click="quickCheck('BJM-2026-001')" class="px-2.5 py-1 rounded bg-white/20 hover:bg-white/30 font-mono text-white transition-colors">BJM-2026-001</button>
+                        <button @click="quickCheck('BJM-2026-002')" class="px-2.5 py-1 rounded bg-white/20 hover:bg-white/30 font-mono text-white transition-colors">BJM-2026-002</button>
+                        <button @click="quickCheck('BJM-2026-003')" class="px-2.5 py-1 rounded bg-white/20 hover:bg-white/30 font-mono text-white transition-colors">BJM-2026-003</button>
+                    </div>
+                </div>
+
+                <!-- Hero Interactive Card Preview -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white/95 border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl text-slate-800">
+                        <div class="flex items-center justify-between pb-5 border-b border-orange-100">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-orange-100 text-brand-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-address-card text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-900">Pengecekan Cepat</h3>
+                                    <p class="text-xs text-slate-500">Ketik Registrasi / NIK / Email</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-extrabold uppercase">Sistem Online</span>
+                        </div>
+
+                        <div class="mt-6 space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Cek Lamaran Sekarang</label>
+                                <div class="relative">
+                                    <input type="text" x-model="quickSearchQuery" @keyup.enter="performQuickSearch()"
+                                           placeholder="Contoh: BJM-2026-001" 
+                                           class="w-full bg-slate-50 border border-orange-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm font-mono">
+                                    <button @click="performQuickSearch()" 
+                                            class="absolute right-2 top-2 bottom-2 px-4 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold transition-colors">
+                                        Cari
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-orange-50/80 border border-orange-100 text-xs text-slate-600 space-y-2">
+                                <p class="font-bold text-brand-800"><i class="fa-solid fa-shield-halved mr-1"></i> Layanan Resmi Rekrutmen</p>
+                                <p class="leading-relaxed">Sistem terhubung langsung dengan Database HRD PT. Berkah Jaya Mangkalapi tanpa dipungut biaya apapun.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-10 bg-white border-b border-orange-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <p class="text-3xl font-black text-brand-600">1,200+</p>
+                    <p class="text-xs text-slate-500 font-bold uppercase mt-1">Karyawan Aktif</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-black text-slate-900">98%</p>
+                    <p class="text-xs text-slate-500 font-bold uppercase mt-1">Kepuasan Pelamar</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-black text-brand-600">12</p>
+                    <p class="text-xs text-slate-500 font-bold uppercase mt-1">Kantor Cabang</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-black text-slate-900">100%</p>
+                    <p class="text-xs text-slate-500 font-bold uppercase mt-1">Bebas Biaya (Gratis)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="lowongan" class="py-20 bg-orange-50/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-600 font-extrabold text-xs uppercase tracking-widest">Peluang Karir</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Lowongan Pekerjaan Aktif</h2>
+                    <p class="text-slate-600 mt-2 text-sm">Temukan posisi pekerjaan yang sesuai dengan kualifikasi dan keahlian Anda.</p>
+                </div>
+                <!-- Category Filter Buttons -->
+                <div class="mt-6 md:mt-0 flex flex-wrap gap-2">
+                    <template x-for="cat in categories" :key="cat">
+                        <button @click="selectedCategory = cat"
+                                :class="selectedCategory === cat ? 'bg-brand-500 text-white shadow-md' : 'bg-white text-slate-700 border border-orange-200 hover:bg-orange-100/50'"
+                                class="px-4 py-2 rounded-xl text-xs font-bold transition-all">
+                            <span x-text="cat"></span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Job Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="job in filteredJobs" :key="job.id">
+                    <div class="bg-white rounded-2xl p-6 border border-orange-100 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group hover:border-brand-300">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="px-3 py-1 rounded-full bg-orange-100 text-brand-700 font-bold text-xs" x-text="job.type"></span>
+                                <span class="text-xs font-medium text-slate-500"><i class="fa-solid fa-location-dot text-brand-500 mr-1"></i><span x-text="job.location"></span></span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors" x-text="job.title"></h3>
+                            <p class="text-xs font-semibold text-brand-600 mt-1" x-text="job.department"></p>
+                            <p class="text-slate-600 text-xs mt-4 line-clamp-3 leading-relaxed" x-text="job.description"></p>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs text-slate-500 font-medium">Batas: <span class="text-slate-800 font-bold" x-text="job.deadline"></span></span>
+                            <button @click="applyJob(job)" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-brand-500 text-white text-xs font-bold transition-colors shadow-sm">
+                                Lamar Posisi
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <section id="alur" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-600 font-extrabold text-xs uppercase tracking-widest">Tahapan Seleksi</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Alur Pendaftaran & Rekrutmen</h2>
+                <p class="text-slate-600 text-sm mt-2">Seluruh proses seleksi calon karyawan di PT. Berkah Jaya Mangkalapi dilakukan secara transparan dan objektif.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                <!-- Step 1 -->
+                <div class="relative bg-orange-50/50 rounded-2xl p-6 border border-orange-100 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-500 text-white font-black text-lg flex items-center justify-center mx-auto mb-4 shadow-md orange-glow">
+                        1
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Pendaftaran Online</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed">Isi formulir pendaftaran serta upload dokumen persyaratan secara lengkap di portal ini.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative bg-orange-50/50 rounded-2xl p-6 border border-orange-100 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-500 text-white font-black text-lg flex items-center justify-center mx-auto mb-4 shadow-md orange-glow">
+                        2
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Seleksi Administrasi</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed">Tim HRD memverifikasi keabsahan dokumen serta kualifikasi pelamar yang telah masuk.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative bg-orange-50/50 rounded-2xl p-6 border border-orange-100 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-500 text-white font-black text-lg flex items-center justify-center mx-auto mb-4 shadow-md orange-glow">
+                        3
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Tes & Wawancara</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed">Pelamar yang lolos seleksi berkas diundang mengikuti ujian kompetensi & interview user.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative bg-orange-50/50 rounded-2xl p-6 border border-orange-100 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-500 text-white font-black text-lg flex items-center justify-center mx-auto mb-4 shadow-md orange-glow">
+                        4
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Offering & Onboarding</h3>
+                    <p class="text-xs text-slate-600 mt-2 leading-relaxed">Penyampaian surat penawaran kerja (Offering Letter) dan penyambutan karyawan baru.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-orange-50/40 border-t border-orange-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-600 font-extrabold text-xs uppercase tracking-widest">Informasi Rekrutmen</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Pertanyaan Sering Diajukan (FAQ)</h2>
+            </div>
+
+            <div class="space-y-4">
+                <template x-for="(item, index) in faqs" :key="index">
+                    <div class="bg-white rounded-2xl border border-orange-100 overflow-hidden shadow-sm transition-all">
+                        <button @click="item.open = !item.open" 
+                                class="w-full p-5 text-left flex justify-between items-center font-bold text-slate-900 hover:text-brand-600 text-sm">
+                            <span x-text="item.question"></span>
+                            <i class="fa-solid" :class="item.open ? 'fa-chevron-up text-brand-500' : 'fa-chevron-down text-slate-400'"></i>
+                        </button>
+                        <div x-show="item.open" x-cloak class="px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-orange-50 pt-3">
+                            <p x-text="item.answer"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <div x-show="isCheckModalOpen" x-cloak 
+         class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+
+        <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden border border-orange-100 transform transition-all"
+             @click.away="closeCheckModal()">
+            
+            <!-- Modal Header (Orange Styled) -->
+            <div class="orange-gradient text-white p-6 sm:p-8 relative">
+                <button @click="closeCheckModal()" class="absolute top-6 right-6 text-white/80 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-white/20 text-white flex items-center justify-center font-bold text-lg backdrop-blur-md">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black">Cek Status Lamaran Pekerjaan</h3>
+                        <p class="text-xs text-orange-100">PT. Berkah Jaya Mangkalapi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 sm:p-8 space-y-6">
+                <!-- Search Form -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Masukkan No. Registrasi / NIK / Email</label>
+                    <div class="flex gap-2">
+                        <input type="text" x-model="searchKey" @keyup.enter="searchApplicant()" 
+                               placeholder="Contoh: BJM-2026-001 atau ahmad@gmail.com" 
+                               class="flex-1 border border-orange-200 rounded-xl px-4 py-3 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-slate-50">
+                        <button @click="searchApplicant()" 
+                                class="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm rounded-xl transition-colors shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>Cari</span>
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">Gunakan data yang terdaftar saat Anda mengajukan lamaran.</p>
+                </div>
+
+                <!-- Searching State -->
+                <div x-show="isSearching" class="text-center py-8">
+                    <div class="inline-block w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-xs text-slate-500 mt-3 font-semibold">Mencari data pada database rekrutmen...</p>
+                </div>
+
+                <!-- Result Display -->
+                <div x-show="!isSearching && searchResult !== null" x-cloak>
+                    <!-- Found -->
+                    <template x-if="searchResult && searchResult.found">
+                        <div class="bg-orange-50/50 rounded-2xl p-6 border border-orange-100 space-y-6">
+                            <!-- Basic Candidate Details -->
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center pb-4 border-b border-orange-200/60 gap-2">
+                                <div>
+                                    <span class="text-xs font-mono text-brand-600 font-bold" x-text="searchResult.data.regNo"></span>
+                                    <h4 class="text-lg font-extrabold text-slate-900" x-text="searchResult.data.name"></h4>
+                                    <p class="text-xs font-semibold text-slate-500" x-text="'Posisi: ' + searchResult.data.position"></p>
+                                </div>
+                                <div>
+                                    <span class="px-3.5 py-1.5 rounded-full text-xs font-bold inline-block shadow-sm"
+                                          :class="getStatusBadgeClass(searchResult.data.statusCode)">
+                                        <i class="fa-solid mr-1.5" :class="getStatusIcon(searchResult.data.statusCode)"></i>
+                                        <span x-text="searchResult.data.statusText"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Selection Timeline -->
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Progres Tahapan Seleksi</h5>
+                                <div class="space-y-4">
+                                    <template x-for="(step, idx) in searchResult.data.timeline" :key="idx">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 shadow-sm"
+                                                 :class="step.completed ? 'bg-brand-500 text-white' : 'bg-slate-200 text-slate-400'">
+                                                <i class="fa-solid" :class="step.completed ? 'fa-check' : 'fa-minus'"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="flex justify-between items-center">
+                                                    <p class="text-xs font-bold" :class="step.completed ? 'text-slate-900' : 'text-slate-400'" x-text="step.title"></p>
+                                                    <span class="text-[10px] font-semibold text-slate-400" x-text="step.date"></span>
+                                                </div>
+                                                <p class="text-xs text-slate-500 mt-0.5" x-text="step.note"></p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- HR Note Box -->
+                            <div class="p-4 rounded-xl text-xs leading-relaxed" :class="getMessageBoxClass(searchResult.data.statusCode)">
+                                <p class="font-bold mb-1"><i class="fa-solid fa-comment-dots mr-1"></i> Catatan Tim HRD:</p>
+                                <p x-text="searchResult.data.hrNote"></p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Not Found -->
+                    <template x-if="searchResult && !searchResult.found">
+                        <div class="text-center py-8 bg-orange-50/50 rounded-2xl border border-orange-100 p-6">
+                            <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-800 text-sm">Data Lamaran Tidak Ditemukan</h4>
+                            <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                                Mohon periksa kembali Nomor Registrasi, NIK, atau Email yang Anda masukkan. Pastikan data sesuai dengan yang didaftarkan.
+                            </p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 px-6 py-4 border-t border-orange-100 flex justify-end">
+                <button @click="closeCheckModal()" class="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="isApplyModalOpen" x-cloak 
+         class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl relative border border-orange-100">
+            <button @click="isApplyModalOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="w-14 h-14 bg-orange-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900">Formulir Lamaran Pekerjaan</h3>
+            <p class="text-xs text-slate-500 mt-1">Melamar Posisi: <span class="font-bold text-brand-600" x-text="selectedJobForApply?.title"></span></p>
+            
+            <form @submit.prevent="submitApplication()" class="mt-6 space-y-3 text-left">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap</label>
+                    <input type="text" required placeholder="Sesuai KTP" class="w-full border border-orange-200 bg-slate-50 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Email Aktif</label>
+                    <input type="email" required placeholder="nama@email.com" class="w-full border border-orange-200 bg-slate-50 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp</label>
+                    <input type="tel" required placeholder="081234567890" class="w-full border border-orange-200 bg-slate-50 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs rounded-xl shadow-md orange-glow transition-all mt-4">
+                    Kirim Berkas Lamaran
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast Message -->
+    <div x-show="showToast" x-cloak x-transition
+         class="fixed bottom-6 right-6 z-50 max-w-sm bg-slate-900 text-white rounded-2xl p-4 shadow-2xl border border-slate-700 flex items-start gap-3">
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="flex-1 text-xs">
+            <p class="font-bold text-white mb-0.5">Lamaran Dikirim!</p>
+            <p class="text-slate-300 leading-relaxed" x-text="toastMessage"></p>
+        </div>
+        <button @click="showToast = false" class="text-slate-400 hover:text-white">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-black text-sm">
+                            BJM
+                        </div>
+                        <span class="text-sm font-bold text-white">PT. BERKAH JAYA MANGKALAPI</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">
+                        Penyedia layanan dan produk unggulan terpercaya dengan komitmen tinggi terhadap kualitas dan integritas SDM.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-3">Navigasi Halaman</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#beranda" class="hover:text-brand-400 transition-colors">Beranda Utama</a></li>
+                        <li><a href="#lowongan" class="hover:text-brand-400 transition-colors">Lowongan Pekerjaan</a></li>
+                        <li><a href="#alur" class="hover:text-brand-400 transition-colors">Alur Pendaftaran</a></li>
+                        <li><a href="#faq" class="hover:text-brand-400 transition-colors">Pertanyaan Umun (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-3">Kontak HRD Rekrutmen</h4>
+                    <ul class="space-y-2">
+                        <li><i class="fa-solid fa-envelope mr-2 text-brand-400"></i> rekrutmen@berkahjayamangkalapi.co.id</li>
+                        <li><i class="fa-solid fa-phone mr-2 text-brand-400"></i> (021) 555-8901 / 555-8902</li>
+                        <li><i class="fa-solid fa-location-dot mr-2 text-brand-400"></i> Graha Mangkalapi Fl. 8, Jakarta Pusat</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-3">Keamanan Rekrutmen</h4>
+                    <p class="leading-relaxed">
+                        PT. Berkah Jaya Mangkalapi <strong class="text-white">TIDAK PERNAH</strong> memungut biaya apapun dalam seluruh tahapan seleksi rekrutmen.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800 text-center text-slate-500">
+                <p>&copy; 2026 PT. Berkah Jaya Mangkalapi. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function recruitmentApp() {
+            return {
+                mobileMenuOpen: false,
+                isCheckModalOpen: false,
+                isApplyModalOpen: false,
+                showToast: false,
+                toastMessage: '',
+                selectedJobForApply: null,
+                searchKey: '',
+                quickSearchQuery: '',
+                isSearching: false,
+                searchResult: null,
+                selectedCategory: 'Semua',
+
+                categories: ['Semua', 'Teknologi', 'Operasional', 'Keuangan', 'Pemasaran'],
+
+                applicantsDb: [
+                    {
+                        regNo: 'BJM-2026-001',
+                        nik: '3171010203040001',
+                        email: 'ahmad.fauzi@gmail.com',
+                        name: 'Ahmad Fauzi',
+                        position: 'Senior Software Engineer',
+                        statusCode: 'PROCESSING',
+                        statusText: 'Dalam Proses Seleksi Berkas',
+                        hrNote: 'Berkas lamaran Anda telah lengkap dan saat ini sedang ditinjau oleh Tim HRD & Lead Technical.',
+                        timeline: [
+                            { title: 'Pendaftaran Berhasil', date: '10 Jan 2026', completed: true, note: 'Dokumen diterima sistem' },
+                            { title: 'Seleksi Administrasi', date: '12 Jan 2026', completed: true, note: 'Dalam verifikasi HR' },
+                            { title: 'Wawancara User', date: '-', completed: false, note: 'Menunggu hasil kelulusan berkas' },
+                            { title: 'Onboarding', date: '-', completed: false, note: 'Tahap akhir' }
+                        ]
+                    },
+                    {
+                        regNo: 'BJM-2026-002',
+                        nik: '3171010203040002',
+                        email: 'siti.rahma@gmail.com',
+                        name: 'Siti Rahmawati',
+                        position: 'Staff Keuangan & Akuntansi',
+                        statusCode: 'INTERVIEW',
+                        statusText: 'Lolos - Undangan Wawancara',
+                        hrNote: 'Selamat! Anda diundang mengikuti Wawancara HRD pada tanggal 18 Februari 2026 pukul 09.00 WIB via Google Meet.',
+                        timeline: [
+                            { title: 'Pendaftaran Berhasil', date: '05 Jan 2026', completed: true, note: 'Dokumen diterima' },
+                            { title: 'Seleksi Administrasi', date: '08 Jan 2026', completed: true, note: 'Memenuhi kualifikasi' },
+                            { title: 'Wawancara HR & User', date: '18 Feb 2026', completed: true, note: 'Jadwal wawancara terkonfirmasi' },
+                            { title: 'Onboarding', date: '-', completed: false, note: 'Tahap akhir' }
+                        ]
+                    },
+                    {
+                        regNo: 'BJM-2026-003',
+                        nik: '3171010203040003',
+                        email: 'budi.santoso@gmail.com',
+                        name: 'Budi Santoso',
+                        position: 'Supervisor Operasional',
+                        statusCode: 'ACCEPTED',
+                        statusText: 'Diterima - Onboarding',
+                        hrNote: 'Selamat bergabung! Dokumen penawaran kerja (Offering Letter) telah dikirim ke email Anda. Harap hadir untuk pembekalan orientasi.',
+                        timeline: [
+                            { title: 'Pendaftaran Berhasil', date: '01 Jan 2026', completed: true, note: 'Selesai' },
+                            { title: 'Seleksi Administrasi', date: '03 Jan 2026', completed: true, note: 'Lolos' },
+                            { title: 'Wawancara & Asesmen', date: '10 Jan 2026', completed: true, note: 'Lolos' },
+                            { title: 'Offering & Onboarding', date: '01 Feb 2026', completed: true, note: 'Karyawan Resmi' }
+                        ]
+                    },
+                    {
+                        regNo: 'BJM-2026-004',
+                        nik: '3171010203040004',
+                        email: 'dewi.lestari@gmail.com',
+                        name: 'Dewi Lestari',
+                        position: 'Digital Marketing Specialist',
+                        statusCode: 'REJECTED',
+                        statusText: 'Tidak Lolos Seleksi',
+                        hrNote: 'Terima kasih atas minat Anda. Saat ini kualifikasi Anda belum sesuai dengan kebutuhan posisi yang tersedia.',
+                        timeline: [
+                            { title: 'Pendaftaran Berhasil', date: '02 Jan 2026', completed: true, note: 'Selesai' },
+                            { title: 'Seleksi Administrasi', date: '06 Jan 2026', completed: true, note: 'Kualifikasi belum memenuhi' },
+                            { title: 'Wawancara User', date: '-', completed: false, note: 'Tidak dapat dilanjutkan' },
+                            { title: 'Onboarding', date: '-', completed: false, note: '-' }
+                        ]
+                    }
+                ],
+
+                jobs: [
+                    {
+                        id: 1,
+                        title: 'Senior Software Engineer (Fullstack)',
+                        department: 'Departemen Teknologi Informasi',
+                        category: 'Teknologi',
+                        location: 'Jakarta (Hybrid)',
+                        type: 'Full-Time',
+                        deadline: '28 Feb 2026',
+                        description: 'Bertanggung jawab dalam merancang dan mengembangkan arsitektur sistem aplikasi web skala besar menggunakan Node.js dan React.'
+                    },
+                    {
+                        id: 2,
+                        title: 'Staff Keuangan & Akuntansi',
+                        department: 'Departemen Keuangan & Finance',
+                        category: 'Keuangan',
+                        location: 'Jakarta Pusat',
+                        type: 'Full-Time',
+                        deadline: '15 Feb 2026',
+                        description: 'Mengelola laporan keuangan bulanan, perpajakan perusahaan, serta melakukan rekonsiliasi kas dan bank.'
+                    },
+                    {
+                        id: 3,
+                        title: 'Digital Marketing Specialist',
+                        department: 'Departemen Pemasaran',
+                        category: 'Pemasaran',
+                        location: 'Jakarta / Remote',
+                        type: 'Full-Time',
+                        deadline: '20 Feb 2026',
+                        description: 'Menyusun strategi kampanye digital iklan (Paid Ads), SEO/SEM, serta optimasi saluran pemasaran sosial media.'
+                    },
+                    {
+                        id: 4,
+                        title: 'Supervisor Operasional Lapangan',
+                        department: 'Departemen Operasional',
+                        category: 'Operasional',
+                        location: 'Surabaya',
+                        type: 'Full-Time',
+                        deadline: '10 Mar 2026',
+                        description: 'Supervisi kegiatan operasional harian, mengawasi alur kerja tim, serta memastikan target efisiensi tercapai.'
+                    },
+                    {
+                        id: 5,
+                        title: 'UI/UX Designer',
+                        department: 'Departemen Teknologi Informasi',
+                        category: 'Teknologi',
+                        location: 'Jakarta (Hybrid)',
+                        type: 'Full-Time',
+                        deadline: '25 Feb 2026',
+                        description: 'Membuat user journey, wireframe, prototipe interaktif, dan desain interface yang intuitif untuk platform digital perusahaan.'
+                    }
+                ],
+
+                faqs: [
+                    {
+                        question: 'Bagaimana cara mengecek status lamaran pekerjaan saya?',
+                        answer: 'Anda dapat menekan tombol "Cek Status Lamaran" di bagian atas halaman ini, lalu memasukkan Nomor Registrasi (contoh: BJM-2026-001), NIK, atau Email yang terdaftar.',
+                        open: false
+                    },
+                    {
+                        question: 'Berapa lama proses seleksi administrasi berlangsung?',
+                        answer: 'Proses verifikasi berkas administrasi biasanya memakan waktu 3 hingga 7 hari kerja setelah penutupan batas lamaran.',
+                        open: false
+                    },
+                    {
+                        question: 'Apakah proses rekrutmen dipungut biaya?',
+                        answer: 'Sama sekali TIDAK. PT. Berkah Jaya Mangkalapi tidak pernah meminta pembayaran atau biaya akomodasi dalam bentuk apapun kepada pelamar.',
+                        open: false
+                    },
+                    {
+                        question: 'Bagaimana jika saya lupa Nomor Registrasi Pendaftaran?',
+                        answer: 'Anda masih dapat melakukan pengecekan status lamaran dengan memasukkan Email aktif atau Nomor Induk Kependudukan (NIK) yang Anda daftarkan.',
+                        open: false
+                    }
+                ],
+
+                get filteredJobs() {
+                    if (this.selectedCategory === 'Semua') {
+                        return this.jobs;
+                    }
+                    return this.jobs.filter(job => job.category === this.selectedCategory);
+                },
+
+                openCheckModal() {
+                    this.isCheckModalOpen = true;
+                },
+
+                closeCheckModal() {
+                    this.isCheckModalOpen = false;
+                },
+
+                quickCheck(code) {
+                    this.searchKey = code;
+                    this.openCheckModal();
+                    this.searchApplicant();
+                },
+
+                performQuickSearch() {
+                    if (!this.quickSearchQuery.trim()) return;
+                    this.searchKey = this.quickSearchQuery;
+                    this.openCheckModal();
+                    this.searchApplicant();
+                },
+
+                searchApplicant() {
+                    if (!this.searchKey.trim()) return;
+                    
+                    this.isSearching = true;
+                    this.searchResult = null;
+
+                    setTimeout(() => {
+                        const cleanKey = this.searchKey.trim().toLowerCase();
+                        const match = this.applicantsDb.find(a => 
+                            a.regNo.toLowerCase() === cleanKey || 
+                            a.nik.toLowerCase() === cleanKey || 
+                            a.email.toLowerCase() === cleanKey
+                        );
+
+                        if (match) {
+                            this.searchResult = { found: true, data: match };
+                        } else {
+                            this.searchResult = { found: false };
+                        }
+                        this.isSearching = false;
+                    }, 500);
+                },
+
+                getStatusBadgeClass(code) {
+                    switch (code) {
+                        case 'PROCESSING': return 'bg-amber-100 text-amber-800 border border-amber-300';
+                        case 'INTERVIEW': return 'bg-orange-100 text-brand-700 border border-brand-300';
+                        case 'ACCEPTED': return 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+                        case 'REJECTED': return 'bg-rose-100 text-rose-800 border border-rose-300';
+                        default: return 'bg-slate-100 text-slate-800';
+                    }
+                },
+
+                getStatusIcon(code) {
+                    switch (code) {
+                        case 'PROCESSING': return 'fa-spinner animate-spin text-amber-600';
+                        case 'INTERVIEW': return 'fa-calendar-check text-brand-600';
+                        case 'ACCEPTED': return 'fa-circle-check text-emerald-600';
+                        case 'REJECTED': return 'fa-circle-xmark text-rose-600';
+                        default: return 'fa-circle-info';
+                    }
+                },
+
+                getMessageBoxClass(code) {
+                    switch (code) {
+                        case 'PROCESSING': return 'bg-amber-50 text-amber-900 border border-amber-200';
+                        case 'INTERVIEW': return 'bg-orange-50 text-brand-900 border border-orange-200';
+                        case 'ACCEPTED': return 'bg-emerald-50 text-emerald-900 border border-emerald-200';
+                        case 'REJECTED': return 'bg-rose-50 text-rose-900 border border-rose-200';
+                        default: return 'bg-slate-50 text-slate-800';
+                    }
+                },
+
+                applyJob(job) {
+                    this.selectedJobForApply = job;
+                    this.isApplyModalOpen = true;
+                },
+
+                submitApplication() {
+                    this.toastMessage = 'Terima kasih! Lamaran Anda berhasil dikirim. Silakan gunakan fitur "Cek Status Lamaran" secara berkala.';
+                    this.showToast = true;
+                    this.isApplyModalOpen = false;
+                    setTimeout(() => {
+                        this.showToast = false;
+                    }, 5000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
